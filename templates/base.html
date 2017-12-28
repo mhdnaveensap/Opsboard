@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+  <html>
+    <head>
+      <link rel="shortcut icon" type="image/x-icon" href="{% static "/image/browicon.png"%}" />
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/css?family=Barlow|Open+Sans+Condensed:300|Cabin+Sketch|Comfortaa|Kite+One" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import Jquery-->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="{% static "css/materialize.min.css"%}"  media="screen,projection"/>
+      <!--Import custom.css-->
+      <link rel="stylesheet" href="{% static "/css/mycustom.css"%}">
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      {% block title %}
+      <title>Base</title>
+      {% endblock %}
+
+    </head>
+    <!-- Static navbar -->
+    <ul id="dropdown1" class="dropdown-content">
+      <li><a href="{% url 'userpg:view_profile' %}">Profile</a></li>
+      <li><a href="{% url 'userpg:logout' %}">Logout</a></li>
+    </ul>
+    <nav>
+        <div class="nav-wrapper" style="background-color: #537bb2;">
+          <a style="margin:-.1% 0% 0% 0%;" class="brand-logo" href="{% url 'taskpg:dash_board' %}">
+             <img src="{% static "/image/opsicon.png"%}" width="30" height="30" class="d-inline-block align-top" alt="">
+            OpsBoard
+          </a>
+          <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+          <ul class="right hide-on-med-and-down">
+            <li><a href="{% url 'taskpg:task_master' %}">Task</a></li>
+            <li><a href="#">Shift Roster</a></li>
+            <li><a href="#">Task Status</a></li>
+            {% if user.is_authenticated %}
+            <li><a class="dropdown-button" data-icon="images/opsicon.png" class="circle" href="#" data-activates="dropdown1">Hi {{ user.last_name }}<i class="material-icons right">arrow_drop_down</i></a></li>
+            {% else %}
+            <li><a href="{% url 'userpg:login' %}">Login</a></li>
+            {% endif %}
+          </ul>
+          <ul id="mobile-demo" class="side-nav">
+              <li><div class="user-view">
+                <div class="background">
+                  <img style="height:'100%';width:'auto';" src="{% static "/image/sidnavbg.jpg"%}">
+                </div>
+                <a href="#!user"><img class="circle" src="{% static "/image/profile/i326707.jpg"%}"></a>
+                <a href="#!name"><span class="white-text name">{{ user.last_name|title }}</span></a>
+                <a href="#!email"><span class="white-text email">{{ user.user_profile.position }}</span></a>
+              </div></li>
+              <li><a class="waves-effect" href="{% url 'taskpg:dash_board' %}">Home</a></li>
+              <li><a class="waves-effect" href="{% url 'taskpg:task_master' %}">Task</a></li>
+              <li><a class="waves-effect" href="#">Shift Roster</a></li>
+              <li><a class="waves-effect" href="#">Task Status</a></li>
+              <li><a class="waves-effect" href="{% url 'userpg:view_profile'%}">Profile</a></li>
+              <li><a href="{% url 'userpg:logout'%}" class="waves-effect waves-light btn primarycol">Logout</a></li>
+         </ul>
+        </div>
+      </nav>
+    <!-- Static navbar -->
+    <!-- Body start -->
+    <body>
+
+      {% block body %}
+      <h1>Its from base class</h1>
+      {% endblock%}
+
+
+
+
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="{% static "js/home.js"%}"></script>
+      <script type="text/javascript" src="{% static "js/materialize.min.js"%}"></script>
+    </body>
+    <!-- Body end -->
+  </html>

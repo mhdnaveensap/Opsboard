@@ -1,0 +1,132 @@
+{%  extends 'base.html' %}
+{% load staticfiles %}
+{% load my_tag %}
+{% block title %}
+<title>Update Task</title>
+<style>
+.dangerbtn
+  {
+    background-color: #F25F5C;
+    color: white;
+  }
+</style>
+
+{% endblock %}
+
+
+{% block body %}
+
+<div>
+
+   <div style="padding-left:2%;padding-right:1%;" class="row">
+     {# The Text area #}
+      <div class="row s12 m10 l6">
+        <h5 class="heading" style="color:#537bb2;">Update Task..</h5>
+        <form id="task_create" method="POST">
+            {% csrf_token %}
+
+                <div class="row">
+                  <div class="input-field col s12 m1 l1">
+                      {{ form.sid }}
+                    <label id="taskid" for={{ taskid.id}}>SID</label>
+                  </div>
+                  <div class="input-field col s12 m1 l1">
+                    {{ form.datacenter }}
+                  <label for="sid">Data Center</label>
+                  </div>
+                  <div class="input-field col s12 m2 l2">
+                    {{ form.status }}
+                  <label for="sid">Status</label>
+                  </div>
+                  <div class="input-field col s12 m2 l2">
+                    {{ form.processor }}
+                  <label for="sid">Processor</label>
+                  </div>
+                  <div class="input-field col s12 m2 l2">
+                    {{ form.priority }}
+                  <label for="last_name">Priority</label>
+                  </div>
+                  <div class="input-field col s12 m2 l2">
+                    {{ form.tasktype }}
+                  <label for="last_name">Task Category</label>
+                  </div>
+                  <div class="input-field col s12 m2 l2">
+                      {{ form.pid }}
+                    <label for="last_name">Process ID</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12 m2 l6">
+                      {{ form.task_title }}
+                    <label for="task_title">Task Title</label>
+                  </div>
+                  <div class="input-field col s12 m2 l6">
+                      {{ form.task_description }}
+                    <label for="task_description">Task Description</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12 m2 l2">
+                    {{ form.processingteam }}
+                  <label for="last_name">Processing Team</label>
+                  </div>
+
+                  <div class="input-field col s12 m3 l3">
+                      {{ form.sourceincident }}
+                    <label for="first_name">Source Incident URL/No</label>
+                  </div>
+                  <div class="input-field col s12 m3 l3">
+                      {{ form.errorincident }}
+                    <label for="last_name">Error Incident URL/No</label>
+                  </div>
+                  <div class="input-field col s12 m2 l2">
+                    {{ form.duedate }}
+                  <label for="last_name">Due Date</label>
+                  </div>
+
+                </div>
+
+        </form>
+        <div class="row">
+                  <div class="form-group col s12 m1 l2">
+                    <a id="update_task" style="border-radius:20px;" type="button" name="action" class="btn waves-effect waves-light primarycol">Update Task</a>
+                  </div>
+
+                    <div class="form-group col s12 m1 l2">
+                      <a style="border-radius:20px;" href="{% url 'taskpg:task_master' %}" class="waves-effect waves-light btn dangerbtn">Cancel</a>
+                    </div>
+                    <div class="row s12 m1 l2">
+                      <a style="border-radius:20px;" class="btn waves-effect waves-light primarycol modal-trigger" href="#modal1">Add comment</a>
+                    </div>
+            </div>
+      </div>
+      {# The command area #}
+      <div id="modal1" class="modal bottom-sheet">
+          <div class="modal-content">
+            <h4>Add your comments here</h4>
+            <form id="update_form" method="POST">
+                  {% csrf_token %}
+              {{form_cmd.as_p}}
+            </form>
+          </div>
+          <div class="modal-footer">
+            <a style="border-radius:20px;" id="btn_add_cmd" id="update_task" name="action"type="button" class="btn waves-effect waves-light primarycol">Update comments</a>
+          </div>
+      </div>
+  </div>
+      {# The command box from commands page #}
+      <div class="row s12 m10 l6">
+        <div id="command_div">
+        <div class="container">
+          <div style="margin-top:10%;" class="progress">
+          <div class="indeterminate"></div>
+          </div>
+        </div>
+        </div>
+      </div>
+      {# The command ends #}
+
+</div>
+
+<script type="text/javascript" src="{% static "js/updatepage.js"%}"></script>
+{% endblock %}

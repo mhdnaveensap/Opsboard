@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load my_tag %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+        ::-webkit-scrollbar {
+          width: 15px;
+          height: 15px;
+          }
+          ::-webkit-scrollbar-track-piece  {
+          background-color: transprand;
+          border-radius: 30px;
+          }
+          ::-webkit-scrollbar-thumb:vertical {
+          height: 30px;
+          background-color: transprand;
+          border-radius: 30px;
+          }
+    </style>
+    <link rel="stylesheet" href="{% static "/css/mycustom.css"%}">
+  </head>
+  <body>
+
+    <div style="overflow-y: scroll; border:none; height: 445px;" class="col l12">
+      {% for commd in commnd_list reversed %}
+      <div class="col s12 m7 l12">
+            <div class="card horizontal">
+      <div class="card-stacked">
+        <div style="padding:0px;background-color:#537bb2;color:white; " class="card-action">
+          <div class="col s6"><p> {{ commd.updatedby.last_name|title }}</p></div>
+          <div class="col s6"><p style="text-align:right;">{{commd.updateddate|date:"dS.M,Y f A"}}</p></div>
+        </div>
+        <div class="card-content">
+          <span class="title">{{commd.comments}}</span>
+        </div>
+      </div>
+    </div>
+      </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>

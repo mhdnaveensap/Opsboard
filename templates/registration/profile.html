@@ -1,0 +1,125 @@
+{%  extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+<title>Profile</title>
+<style>
+  .pan_col
+  {
+    color: white;    /*margin:-280px 0px 0px 0px;*/
+  }
+  .tab_off
+    {
+        background-color:#6D6875 ;
+    }
+
+  .tab_on
+    {
+      background-color: #537bb2;
+    }
+</style>
+{% endblock %}
+
+
+{% block body %}
+<br>
+<br>
+<div class="container">
+
+  <div class="row">
+    <div class="col s12 l6 m10">
+      <div class="card">
+        <div class="card-image">
+          <img src="{% static "/image/profile/noprofile.png"%}">
+          <!-- <span class="card-title">Card Title</span> -->
+          <a class="btn-floating halfway-fab waves-effect waves-light primarycol"><i class="material-icons">edit</i></a>
+        </div>
+        <div class="card-content">
+          <div class="card-tabs">
+            <ul class="tabs tabs-fixed-width">
+              <li id="basicinfo" class="tab tab_on"><a style="color: white;" class="active pan_col" href="#test4">Basic Information</a></li>
+              <li id="passchange" class="tab tab_off"><a style="color: white;" href="#test5">Change Passowrd</a></li>
+            </ul>
+          </div>
+          <div id="test4">
+            <br>
+            <form method="post">
+              {% csrf_token %}
+                <div class="form-row">
+                  <div class="form-group col-md-5">
+                    <label for="id_first_name">First Name</label>
+                    <input type="text" disabled class="form-control" name="first_name" id="id_first_name" value={{user.first_name}}>
+                  </div>
+                 <div class="form-group col-md-5">
+                    <label for="id_last_name">First Name</label>
+                    <input type="text" disabled class="form-control" name="last_name" id="id_last_name" value={{user.last_name}}>
+                  </div>
+                </div>
+              <div class="form-row">
+                  <div class="form-group col-md-10">
+                  <label for="id_email">Email</label>
+                    <input type="email" class="form-control" name="email" id="id_email" value={{user.email}} placeholder="Email" disabled>
+                  </div>
+                </div>
+                <a id="btn_editinfo" type="button" class="btn-floating btn-large waves-effect waves-light primarycol"><i class="material-icons">edit</i></a>
+                <button style="display: none;" id="btn_saveinfo" type="submit" name='btneditinfo' class="btn-floating btn-large waves-effect waves-light primarycol">
+                  <i class="material-icons right">save</i>
+                </button>
+
+            </form>
+            <br>
+          </div>
+
+          <div class="hideadiv"id="test5">
+                <br>
+                <form method="post">
+
+                        {% csrf_token %}
+
+                      <div class="form-row">
+                        <div class="form-group col-md-5">
+                          <label for="id_old_password">Old Password</label>
+                          <input class="form-control" type="password" name="old_password" autofocus required id="id_old_password">
+                        </div>
+                      </div>
+                        <span class="helptext"><ul><li>Your password can&#39;t be too similar to your other personal information.</li><li>Your password must contain at least 8 characters.</li><li>Your password can&#39;t be a commonly used password.</li><li>Your password can&#39;t be entirely numeric.</li></ul></span></p>
+                      <div class="form-row">
+                        <div class="form-group col-md-5">
+                          <label for="id_new_password1">New Password</label>
+                          <input class="form-control" type="password" name="new_password1" required id="id_new_password1">
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="id_new_password2">Confirm Password</label>
+                          <input class="form-control" type="password" name="new_password2" required id="id_new_password2">
+                        </div>
+                      </div>
+                      {% if form.errors %}
+
+
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      {{form.errors}}
+                      {# <strong>Your username and password didn't match</strong> . Please try again. #}
+                    </div>
+
+                    {% endif %}
+
+                      <button type="submit" style="background-color: #537bb2;" name='passcng' class="btn btn-primary">Save</button>
+                </form>
+                <br>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+<script type="text/javascript" src="{% static "js/profilepage.js"%}"></script>
+{% endblock %}

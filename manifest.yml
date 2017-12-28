@@ -1,0 +1,5 @@
+---
+applications:
+- name: s4opsboard
+  services:
+  - postgres-service

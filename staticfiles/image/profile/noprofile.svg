@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+<g class="profile-image">
+	<defs>
+		<rect id="profile-image-mask" width="100" height="100"/>
+	</defs>
+	<clipPath id="profile-image-clipPath">
+		<use xlink:href="#profile-image-mask"  overflow="visible"/>
+	</clipPath>
+	<rect class="profile-image profile-image--bg" clip-path="url(#profile-image-clipPath)" fill="#C4C4C3" width="100" height="100"/>
+	<path class="profile-image profile-image--body" clip-path="url(#profile-image-clipPath)" fill="#808080" d="M110,118.5c0,27.6-32.4,50-60,50s-60-22.4-60-50s32.4-50,60-50
+		S110,90.9,110,118.5z"/>
+	<circle class="profile-image profile-image--head" clip-path="url(#profile-image-clipPath)" fill="#808080" cx="50" cy="40" r="28.8"/>
+</g>
+</svg>

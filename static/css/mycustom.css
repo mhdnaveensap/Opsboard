@@ -1,0 +1,119 @@
+.primarycol
+  {
+    background-color: #537bb2;
+    color: white;
+  }
+
+.dangerbtn
+  {
+    background-color: #F25F5C;
+    color: white;
+  }
+.primarycol_alt
+  {
+      background-color:white ;
+      color: #537bb2;
+  }
+
+.myBadges
+{
+  background-color: #537bb2;
+  color:white;
+  border-radius:50px;
+}
+
+.tablehide{
+      display:inline-block;width:400px;
+      white-space: nowrap;
+      overflow:hidden !important;
+      text-overflow: ellipsis;
+      margin:10px 0px 0px 0px;
+  }
+
+.New
+{
+  text-align:center;
+  background-color:#00A8E8;
+  border-radius:50px;
+  color:white;
+}
+
+.Running
+{
+  text-align:center;
+  background-color:#FFE66D;
+  border-radius:50px;
+  color:black;
+}
+.Error
+{
+  text-align:center;
+  background-color:#EF6461;
+  border-radius:50px;
+  color:white;
+}
+
+.On-Hold
+{
+  text-align:center;
+  background-color:#F8AB35;
+  border-radius:50px;
+  color:white;
+}
+
+.hideadiv
+{
+  display: none;
+}
+
+.heading
+{
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+
+.name_tag
+{
+  font-family: 'Bubbler One', sans-serif;
+}
+
+nav {
+    height: 60px;
+    line-height: 60px;
+}
+
+nav i, nav [class^="mdi-"], nav [class*="mdi-"], nav i.material-icons {
+    height: 55px;
+    line-height: 55px;
+}
+
+nav .button-collapse i {
+    height: 55px;
+    line-height: 55px;
+}
+
+nav .brand-logo {
+  display: inline-block;
+  padding-left: 20px;
+  box-sizing: inherit;
+  margin-right: 2px;
+  font-size: 1.4em;
+  line-height: inherit;
+  white-space: nowrap;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+
+}
+
+.d-inline-block {
+    display: inline-block!important;
+}
+
+.align-top {
+    vertical-align:sub!important;
+}
+
+@media only screen and (min-width: 601px){
+    nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
+        height: 55px;
+        line-height: 55px;
+    }
+ }
