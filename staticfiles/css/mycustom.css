@@ -3,13 +3,16 @@
     background-color: #537bb2;
     color: white;
   }
-
+.comments_box:focus{
+      border: 0 none #FFF;
+      overflow: hidden;
+      outline:none;
+  }
 .dangerbtn
   {
     background-color: #F25F5C;
     color: white;
   }
-
 .primarycol_alt
   {
       background-color:white ;
