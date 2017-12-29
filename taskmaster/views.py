@@ -45,7 +45,8 @@ logger = logging.getLogger(__name__)
 
 @login_required(login_url="/user/login")
 def dashboard(request):
-    note_id = get_object_or_404(Notes, note_active=True)
+    my_team = request.user.groups.values_list('id', flat=True).first()#getting the group id for the user
+    note_id = get_object_or_404(Notes, note_active=True,note_updatedby__user_profile__team_name=my_team)
     form_notes = NOTEFORM(instance=note_id)
     return render(request, 'dashboard/dash_board.html',{'form_notes': form_notes,})
     print(timezone.now())
@@ -54,7 +55,8 @@ def dashboard(request):
 def board_update_note(request):
     data ={}
     if request.method == 'POST':
-        note_id = get_object_or_404(Notes, note_active=True)
+        my_team = request.user.groups.values_list('id', flat=True).first()#getting the group id for the user
+        note_id = get_object_or_404(Notes, note_active=True,note_updatedby__user_profile__team_name=my_team)
         form = NOTEFORM(request.POST,instance=note_id)
         if form.is_valid():
             form_update = form.save(commit=False)
@@ -69,10 +71,10 @@ def board_update_note(request):
 
 @login_required(login_url="/user/login")
 def board_show_note(request):
-    note_id = get_object_or_404(Notes, note_active=True)
-    notes = Notes.objects.filter(note_active=True)
+    # note_id = get_object_or_404(Notes, note_active=True)
+    my_team = request.user.groups.values_list('id', flat=True).first()#getting the group id for the user
+    notes = Notes.objects.filter(note_active=True,note_updatedby__user_profile__team_name=my_team)
     return render(request, 'dashboard/note.html', {'notes': notes,})
-
 
 # The below function gives the data to the table and save the data in post method
 @login_required(login_url="/user/login")

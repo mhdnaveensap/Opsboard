@@ -20,23 +20,34 @@
 
       {# This the dive is to show the notes #}
       <div  id="mydiv">
+        <div class="container">
+          <div class="progress">
+              <div class="indeterminate"></div>
+          </div>
+        </div>
 
-  </div>
+      </div>
 
-      <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+      <div style="padding-left:1.5%;margin-top:-1%;">
+        <a style="border-radius:20px;" class="btn waves-effect waves-light primarycol modal-trigger" href="#modal1">Edit Note</a>
+      </div>
+
 
       {# This the dive is to update the notes #}
-      <div id="modal1" class="modal">
-      <div class="modal-content">
-        <form id="note_update" method="post">
-          {% csrf_token %}
-          {{form_notes.note_name|safe|linebreaksbr}}
-        </form>
+      <div id="modal1" class="modal modal-fixed-footer">
+        <div class="modal-content">
+
+          <form id="note_update" method="post">
+            <p style="color:grey;">Select any text for more options</p>
+            {% csrf_token %}
+            {{form_notes.note_name|safe|linebreaksbr}}
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button id="add_task" style="border-radius:20px;" class="btn waves-effect waves-light primarycol" type="button" name="action">Submit</button>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button id="add_task" class="btn waves-effect waves-light primarycol_btn" type="button" name="action">Submit</button>
-      </div>
-    </div>
 
 </div>
 
@@ -48,7 +59,7 @@
         text: 'Click to edit'
     },
     toolbar: {
-      buttons: ['bold','italic','underline','h4','h5','quote','orderedlist','indent','outdent','anchor','table','fontsize',],
+      buttons: ['bold','italic','underline','h5','h6','quote','orderedlist','indent','outdent','anchor','table','fontsize',],
       diffLeft: 25,
       diffTop: 10,
 

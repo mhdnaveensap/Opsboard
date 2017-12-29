@@ -29,6 +29,7 @@ $(function () {
                  {
                    Materialize.toast('Your Comment is saved.. ', 3000, 'rounded')
                    pullcommand();
+                   $('#modal1').modal('close');
                  }
                  else {
                    Materialize.toast('Your Comment is save field !!', 3000, 'rounded')

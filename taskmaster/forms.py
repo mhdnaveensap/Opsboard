@@ -70,5 +70,5 @@ class NOTEFORM(forms.ModelForm):
 		model = Notes
 		fields = ["note_name"]
 		widgets = {
-                   'note_name': forms.Textarea(attrs={'class': 'editable medium-editor-textarea postcontent'}),
+                   'note_name': forms.Textarea(attrs={'class': 'editable medium-editor-textarea comments_box'}),
 				  }
