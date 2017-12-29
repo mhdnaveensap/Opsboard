@@ -5,51 +5,57 @@
 <title>Dashboard</title>
 <!-- medium Stype Editor -->
 <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
-<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css">
+{# <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css"> #}
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
-
+{# <link rel="stylesheet" href="{% static "js/dist/css/medium-editor.css"%}" type="text/css" media="screen" charset="utf-8"> #}
+<link rel="stylesheet" href="{% static "js/dist/css/medium-editor-tables.css"%}">
 {% endblock %}
 
 
 {% block body %}
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+{# The below div is to update and show the notes and the show notes comes from different screen #}
 <div class="row">
 
-<div  id="mydiv">
+      {# This the dive is to show the notes #}
+      <div  id="mydiv">
 
-</div>
-
-<div id="update_task">
-  <div class="col l12">
-
-         <div class="col s12 m7 l12">
-              <div class="card horizontal">
-               <div class="card-stacked">
-          <div style="padding:0px;background-color:#537bb2;color:white; " class="card-action">
-            <div class="col s6"><p> Please edit the note </p></div>
-            <div class="col s6"><p style="text-align:right;">{% now "jS F Y h:i T" %}</p></div>
-          </div>
-          <div class="card-content">
-            <form id="note_update" method="post">
-              {% csrf_token %}
-              {{form_notes.note_name|safe|linebreaksbr}}
-            </form>
-          </div>
-        </div>
-         </div>
-        </div>
-      </div>
-
-  <div class="form-group col s6 m4 l2">
-    <button id="add_task" class="btn waves-effect waves-light primarycol_btn" type="button" name="action">Submit</button>
   </div>
-</div>
 
+      <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+
+      {# This the dive is to update the notes #}
+      <div id="modal1" class="modal">
+      <div class="modal-content">
+        <form id="note_update" method="post">
+          {% csrf_token %}
+          {{form_notes.note_name|safe|linebreaksbr}}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="add_task" class="btn waves-effect waves-light primarycol_btn" type="button" name="action">Submit</button>
+      </div>
+    </div>
 
 </div>
 
 <script type="text/javascript" src="{% static "js/note.js"%}"></script>
-<script>
-var editor = new MediumEditor('.editable');
-</script>
+<script type="text/javascript" src="{% static "js/dist/js/medium-editor-tables.js"%}"></script>
+<script type="text/javascript" charset="utf-8">
+  var editor = new MediumEditor('.editable', {
+    placeholder: {
+        text: 'Click to edit'
+    },
+    toolbar: {
+      buttons: ['bold','italic','underline','h4','h5','quote','orderedlist','indent','outdent','anchor','table','fontsize',],
+      diffLeft: 25,
+      diffTop: 10,
+
+    },
+    extensions: {
+      table: new MediumEditorTable()
+    }
+  });
+  </script>
 {% endblock %}
