@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User,Group
 from django.db.models.signals import post_save
 from django.core.validators import RegexValidator
@@ -59,10 +60,12 @@ class TaskMaster(models.Model):
 class TaskComm(models.Model):
     taskid  = models.ForeignKey(TaskMaster,null=True,on_delete=models.CASCADE)
     comments = models.TextField(default="")
-    updateddate = models.DateTimeField(("Date"), default=datetime.datetime.now)
+    updateddate = models.DateTimeField(default=timezone.now)
     islastcommand = models.BooleanField(default=True)
     updatedby = models.ForeignKey(User,null=True,on_delete=models.CASCADE)
 
-class TestTAB(models.Model):
-    name = models.CharField(max_length=30)
-    sam  = models.CharField(max_length=30)
+class Notes(models.Model):
+    note_name = models.TextField(null=True)
+    note_updatedby = models.ForeignKey(User,null=True,on_delete=models.CASCADE,default=1)
+    note_updateddate = models.DateTimeField(("Date"), default=datetime.datetime.now)
+    note_active = models.BooleanField(default=True) 

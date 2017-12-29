@@ -25,4 +25,6 @@ urlpatterns = [
                     path('Task/<int:taskid>/update', updatetaskpage,name='updatetask_page'),
                     path('command/<int:taskid>', command,name='command'),
                     url(r'^$', dashboard,name="dash_board"),
+                    url(r'^note_show$', board_show_note,name="note_show"),
+                    url(r'^note_update$', board_update_note,name="note_update"),
               ]

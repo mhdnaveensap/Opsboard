@@ -65,11 +65,10 @@ class update_commnd(forms.ModelForm):
 
 
 
-class TABTESTFORM(forms.ModelForm):
+class NOTEFORM(forms.ModelForm):
 	class Meta():
-		model = TestTAB
-		fields = ["name","sam"]
+		model = Notes
+		fields = ["note_name"]
 		widgets = {
-                   'name': forms.TextInput(attrs={'class': 'form-control mr-sm-2'}),
-				   'sam': forms.TextInput(attrs={'class': 'form-control mr-sm-2'}),
+                   'note_name': forms.Textarea(attrs={'class': 'editable medium-editor-textarea postcontent'}),
 				  }

@@ -26,18 +26,18 @@
 
     <div style="overflow-y: scroll; border:none; height: 445px;" class="col l12">
       {% for commd in commnd_list reversed %}
-      <div class="col s12 m7 l12">
+       <div class="col s12 m7 l12">
             <div class="card horizontal">
-      <div class="card-stacked">
+             <div class="card-stacked">
         <div style="padding:0px;background-color:#537bb2;color:white; " class="card-action">
           <div class="col s6"><p> {{ commd.updatedby.last_name|title }}</p></div>
-          <div class="col s6"><p style="text-align:right;">{{commd.updateddate|date:"dS.M,Y f A"}}</p></div>
+          <div class="col s6"><p style="text-align:right;">{{commd.updateddate|date:"jS F Y h:i T"}}</p></div>
         </div>
         <div class="card-content">
           <span class="title">{{commd.comments}}</span>
         </div>
       </div>
-    </div>
+      </div>
       </div>
       {% endfor %}
     </div>

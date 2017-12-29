@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+  </head>
+  <body>
+    <div class="row">
+      <div class="col l12">
+            {% for mynote in notes %}
+             <div class="col s12 m7 l12">
+                  <div class="card horizontal">
+                   <div class="card-stacked">
+              <div style="padding:0px;background-color:#537bb2;color:white; " class="card-action">
+                <div class="col s6"><p> Notes last edited by {{mynote.note_updatedby.last_name}}</p></div>
+                <div class="col s6"><p style="text-align:right;">{{mynote.note_updateddate|date:"jS F Y h:i T"}}</p></div>
+              </div>
+              <div class="card-content">
+                <span class="title">{{mynote.note_name|safe|linebreaksbr}}</span>
+              </div>
+            </div>
+             </div>
+            </div>
+            {% endfor %}
+          </div>
+    </div>
+
+
+<script>
+var editor = new MediumEditor('.editable', {
+            buttonLabels: 'fontawesome'
+        });
+
+
+
+
+</script>
+  </body>
+
+</html>

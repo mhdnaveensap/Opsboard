@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect,HttpResponse
 from django.template import Context, loader
 from django import forms
+from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from time import sleep
@@ -18,6 +19,7 @@ from .forms import (
     UpateTaskMaster,
     update_commnd,
     ShowTaskMaster,
+    NOTEFORM,
     )
 
 # from .models import MobileDB
@@ -43,7 +45,34 @@ logger = logging.getLogger(__name__)
 
 @login_required(login_url="/user/login")
 def dashboard(request):
-    return render(request, 'dashboard/dash_board.html')
+    note_id = get_object_or_404(Notes, note_active=True)
+    form_notes = NOTEFORM(instance=note_id)
+    return render(request, 'dashboard/dash_board.html',{'form_notes': form_notes,})
+    print(timezone.now())
+
+@login_required(login_url="/user/login")
+def board_update_note(request):
+    data ={}
+    if request.method == 'POST':
+        note_id = get_object_or_404(Notes, note_active=True)
+        form = NOTEFORM(request.POST,instance=note_id)
+        if form.is_valid():
+            form_update = form.save(commit=False)
+            form_update.note_updatedby = request.user
+            form_update.note_updateddate = datetime.datetime.now()
+            form_update.save()
+            data['stat'] = "ok";
+            return HttpResponse(json.dumps(data),content_type="application/json")
+        else:
+            data['stat'] = "error";
+            return HttpResponse(json.dumps(data),content_type="application/json")
+
+@login_required(login_url="/user/login")
+def board_show_note(request):
+    note_id = get_object_or_404(Notes, note_active=True)
+    notes = Notes.objects.filter(note_active=True)
+    return render(request, 'dashboard/note.html', {'notes': notes,})
+
 
 # The below function gives the data to the table and save the data in post method
 @login_required(login_url="/user/login")
@@ -92,7 +121,7 @@ def show_task(request, taskid):
         task_id = get_object_or_404(TaskMaster, pk=taskid)
         group_id = request.user.groups.values_list('name', flat=True).first()
         form = ShowTaskMaster(instance=task_id,groupid=group_id)#seding group to get the dropdown accordingly
-        form_cmd = update_commnd()
+        form_cmd = update_commnd()#send the form to update the commants of the task
         return render(request, 'task/updatetask.html', {'form': form,'form_cmd':form_cmd,'taskid':task_id})
     except Exception as e:
         pass
