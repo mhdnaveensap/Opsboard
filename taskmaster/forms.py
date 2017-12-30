@@ -63,8 +63,7 @@ class update_commnd(forms.ModelForm):
                    'comments': forms.TextInput(attrs={'placeholder':'Please make sure its crisp and clear'})
         		   }
 
-
-
+# This form is to update the notes
 class NOTEFORM(forms.ModelForm):
 	class Meta():
 		model = Notes

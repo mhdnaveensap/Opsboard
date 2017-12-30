@@ -45,11 +45,51 @@ logger = logging.getLogger(__name__)
 #Q Create an API which takes a number and returns the factorial in JSON format.
 
 @login_required(login_url="/user/login")
+def MY_TASK_CMD(request):
+    try:
+
+        data = {}
+        # Getting the task id and cmd START
+        taskid = request.GET['tskid']
+        my_cmd = request.GET['cmd_text']
+        # Getting the task id and cmd End
+
+        # Getting the task id and cmd START
+        task_commnd_id = TaskComm.objects.get(taskid=taskid,islastcommand=True)
+        task_commnd = TaskComm.objects.get(pk=task_commnd_id.id)
+        task_commnd.islastcommand = False
+        task_commnd.updateddate = task_commnd.updateddate
+        task_commnd.save()
+        # Getting the task id and cmd End
+
+        # Updating the new cmd START
+        new_cmd = TaskComm()
+        new_cmd.comments = my_cmd
+        new_cmd.islastcommand = True
+        new_cmd.taskid = TaskMaster.objects.get(pk=taskid)
+        new_cmd.updatedby = request.user
+        new_cmd.updateddate = timezone.now()
+        new_cmd.save()
+        # Updating the new cmd END
+        data['status'] = "I got your update..";
+        return HttpResponse(json.dumps(data),content_type="application/json")
+    except Exception as e:
+        data['status'] = "Somrthing went wrong please contact the admin..";
+        return HttpResponse(json.dumps(data),content_type="application/json")
+
+
+@login_required(login_url="/user/login")
 def dashboard(request):
+    # AREA FOR NOTE START
     my_team = request.user.groups.values_list('id', flat=True).first()#getting the group id for the user
     note_id = get_object_or_404(Notes, note_active=True,note_updatedby__user_profile__team_name=my_team)
     form_notes = NOTEFORM(instance=note_id)
-    return render(request, 'dashboard/dash_board.html',{'form_notes': form_notes,})
+    # AREA FOR NOTE END HERE
+
+    # Queryset for my task start
+    mytask = TaskComm.objects.filter(islastcommand=True,taskid__istaskactive=True,taskid__processor=request.user.id)
+    # Queryset for my task end
+    return render(request, 'dashboard/dash_board.html',{'form_notes': form_notes,'my_task':mytask})
     print(timezone.now())
 
 # This function updates the notes in the dashboard

@@ -3,6 +3,19 @@
 {% load my_tag %}
 {% block title %}
 <title>Dashboard</title>
+<style media="screen">
+  .mytextarea{
+      background-color: blue;
+    	background-repeat:repeat-x;
+    	border:1px solid #d1c7ac;
+    	width: 230px;
+    	color:#333333;
+    	padding:3px;
+    	margin-right:4px;
+    	margin-bottom:8px;
+    	font-family:tahoma, arial, sans-serif;
+  }
+</style>
 <!-- medium Stype Editor -->
 <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
 {# <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css"> #}
@@ -13,11 +26,68 @@
 
 
 {% block body %}
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<br>
+{# This div holds all the task related suff #}
+<div style="padding:1.5%;" class="row">
+  <ul class="collapsible" data-collapsible="accordion">
+    <li>
+        <div class="collapsible-header"><i class="material-icons primarycol_alt">error_outline</i><strong>Important Tasks</strong><span style="color:white;" class="badge myBadges">0</span></div>
+        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+      </li>
+      <li>
+        <div class="collapsible-header"><i class="material-icons primarycol_alt">access_time</i><strong>Task older than 3 days</strong><span style="color:white;" class="badge myBadges">0</span></div>
+        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+      </li>
+      <li>
+        <div class="collapsible-header"><i class="material-icons primarycol_alt">face</i><strong>My Task</strong><span style="color:white;" class="badge myBadges">{{my_task.count}}</span></div>
+        <div class="collapsible-body">
+          {# This is loaded form the another page #}
+          <table id="userTbl" class="bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th width="2%"  style="text-align:center;" scope="col">SID</th>
+                    <th width="30%" style="text-align:center;" scope="col">Task Title</th>
+                    <th width="7%"  style="text-align:center;" scope="col">Task</th>
+                    <th width="50%" style="text-align:center;"scope="col">Comments</th>
+                    <th></th>
+                    <th width="7%"  style="text-align:center;" scope="col">Action</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for taskstd in my_task|dictsort:"taskid.duedate" %}
+                  <tr align="center">
+                    <td style="text-align:center;">{{ taskstd.taskid.sid|upper }}</td>
+                    <td style="text-align:center;">{{ taskstd.taskid.task_title|title|truncatechars:50 }}</td>
+                    <td style="text-align:center;">{{ taskstd.taskid.tasktype }}</td>
+                    <td id="cmd" style="text-align:center;">{{ taskstd.comments|truncatechars:50 }}</td>
+                    <td style="text-align:center;">
+                      <!-- Modal Structure -->
+                        <div id="modal1" class="modal">
+                          <div class="modal-content">
+                            <input id="mycmdbox" style="padding:1%;" placeholder="Enter your comments here"  type="text">
+                          </div>
+                          <div class="modal-footer">
+                            <a value="{{taskstd.taskid.id}}" id="upd_cmd" class="btn waves-effect waves-light primarycol">Save</a>
+                          </div>
+                        </div>
+                      <!-- Modal Structure -->
+                    </td>
+                    <td style="text-align:center;"><a id="test" href="#modal1" class="btn-floating btn-small waves-effect waves-light modal-trigger primarycol"><i class="material-icons">chat</i></a></td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+      </li>
+    </ul>
+</div>
+{# End of Tasks #}
+
 
 {# The below div is to update and show the notes and the show notes comes from different screen #}
 <div class="row">
-
       {# This the dive is to show the notes #}
       <div  id="mydiv">
         <div class="container">
@@ -27,12 +97,9 @@
         </div>
 
       </div>
-
       <div style="padding-left:1.5%;margin-top:-1%;">
         <a style="border-radius:20px;" class="btn waves-effect waves-light primarycol modal-trigger" href="#modal1">Edit Note</a>
       </div>
-
-
       {# This the dive is to update the notes #}
       <div id="modal1" class="modal modal-fixed-footer">
         <div class="modal-content">
@@ -48,10 +115,13 @@
           <button id="add_task" style="border-radius:20px;" class="btn waves-effect waves-light primarycol" type="button" name="action">Submit</button>
         </div>
       </div>
-
 </div>
+{# End of Notes #}
+
+
 
 <script type="text/javascript" src="{% static "js/note.js"%}"></script>
+<script type="text/javascript" src="{% static "js/cmdupdate.js"%}"></script>
 <script type="text/javascript" src="{% static "js/dist/js/medium-editor-tables.js"%}"></script>
 <script type="text/javascript" charset="utf-8">
   var editor = new MediumEditor('.editable', {

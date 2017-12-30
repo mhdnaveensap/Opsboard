@@ -23,8 +23,8 @@ urlpatterns = [
                     url(r'^note_show$', board_show_note,name="note_show"),
                     url(r'^note_update$', board_update_note,name="note_update"),
                     url(r'^timezone$', test_timezone,name="test_timezone"),
-
-
-
+                    # The below URL is to create task with AJAX
                     url(r'^taskcreate/$', ajaxtaskcreate.as_view()),
+                    # The below URL is to update the MY TASK CMD
+                    url(r'^mytaskcmd/$', MY_TASK_CMD,name="my_task_cmd"),
               ]

@@ -1,4 +1,5 @@
-$(document).ready(function(){
+$(document).ready(function()
+{
           pullcommand();
 });
 
@@ -15,6 +16,7 @@ function pullcommand(){
     });
 }
 
+// This function will add the comments
 $(function () {
 
   $("#add_task").click(function () {
