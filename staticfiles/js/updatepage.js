@@ -29,7 +29,7 @@ $(function () {
                  {
                    Materialize.toast('Your Comment is saved.. ', 3000, 'rounded')
                    pullcommand();
-                   $('#modal1').modal('close');
+                   $('#modal2').modal('close');
                  }
                  else {
                    Materialize.toast('Your Comment is save field !!', 3000, 'rounded')
@@ -45,7 +45,6 @@ $(function () {
    $(function () {
        $("#update_task").click(function () {
            var url = window.location.pathname+"/update";
-           console.log(url);
            $.ajax({
                type: 'POST',
                url: url,
@@ -55,6 +54,7 @@ $(function () {
                       if (data['stat'] == "ok")
                       {
                         Materialize.toast('Task updated Successfully', 3000, 'rounded')
+                        $('#modal1').modal('close');
                       }
                       else {
                         Materialize.toast('Task update Failed.Please check all the field', 3000, 'rounded')

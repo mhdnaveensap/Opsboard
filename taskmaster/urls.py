@@ -7,12 +7,7 @@ from django.urls import path
 from taskmaster.views import *
 from django.contrib.auth import views as auth_views
 from django.conf.urls import handler404, handler500
-from django.contrib.auth.views import (
-    password_reset,
-    password_reset_done,
-    password_reset_confirm,
-    password_reset_complete
-)
+
 
 #############################################################################
 #URL Patterns                                                               #
@@ -27,4 +22,9 @@ urlpatterns = [
                     url(r'^$', dashboard,name="dash_board"),
                     url(r'^note_show$', board_show_note,name="note_show"),
                     url(r'^note_update$', board_update_note,name="note_update"),
+                    url(r'^timezone$', test_timezone,name="test_timezone"),
+
+
+
+                    url(r'^taskcreate/$', ajaxtaskcreate.as_view()),
               ]

@@ -31,13 +31,13 @@
                     </div>
                </div>
         <br>
-        <form id="task_create" method="POST">
-          {% csrf_token %}
+        <form id="task_create" method="POST" action="." data-url='/taskcreate/' novalidate>
+          {# {% csrf_token %} #}
 
               <div class="row">
                 <div class="input-field col s12 m2 l1">
                     {{ form.sid }}
-                  <label for="sid">SID</label>
+                  <label  for="sid">SID</label>
                 </div>
                 <div class="input-field col s12 m3 l2">
                   {{ form.datacenter }}
@@ -81,7 +81,7 @@
 
               <div class="row align-items-center">
                 <div class="form-group col s6 m4 l2">
-                  <button id="create_task" class="btn waves-effect waves-light primarycol_btn" type="button" name="action">Submit</button>
+                  <button id="create_task" class="btn waves-effect waves-light primarycol_btn" type="submit" name="action">Submit</button>
                 </div>
 
 

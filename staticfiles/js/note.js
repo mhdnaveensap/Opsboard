@@ -28,7 +28,7 @@ $(function () {
           success: function (data,status) {
                  if (data['stat'] == "ok")
                  {
-                   Materialize.toast('Your Comment is saved.. ', 3000, 'rounded')
+                   Materialize.toast('Your Note is updated.. ', 3000, 'rounded')
                    pullcommand();
                    $('#modal1').modal('close');
                  }

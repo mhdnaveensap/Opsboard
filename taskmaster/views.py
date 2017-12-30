@@ -11,6 +11,7 @@ from django import forms
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
+from django.views.generic import FormView
 from time import sleep
 from taskmaster.taskcounter import *
 from django.forms.models import model_to_dict
@@ -21,13 +22,14 @@ from .forms import (
     ShowTaskMaster,
     NOTEFORM,
     )
-
+from .mixins import AjaxFormMixin
 # from .models import MobileDB
 import logging
 import json
 import csv
 import os
 import sys
+import pytz
 
 init_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(init_path)
@@ -42,7 +44,6 @@ logger = logging.getLogger(__name__)
 ##########################################################
 #Q Create an API which takes a number and returns the factorial in JSON format.
 
-
 @login_required(login_url="/user/login")
 def dashboard(request):
     my_team = request.user.groups.values_list('id', flat=True).first()#getting the group id for the user
@@ -51,6 +52,7 @@ def dashboard(request):
     return render(request, 'dashboard/dash_board.html',{'form_notes': form_notes,})
     print(timezone.now())
 
+# This function updates the notes in the dashboard
 @login_required(login_url="/user/login")
 def board_update_note(request):
     data ={}
@@ -69,6 +71,7 @@ def board_update_note(request):
             data['stat'] = "error";
             return HttpResponse(json.dumps(data),content_type="application/json")
 
+# This function shows the notes in the dashboard
 @login_required(login_url="/user/login")
 def board_show_note(request):
     # note_id = get_object_or_404(Notes, note_active=True)
@@ -76,7 +79,12 @@ def board_show_note(request):
     notes = Notes.objects.filter(note_active=True,note_updatedby__user_profile__team_name=my_team)
     return render(request, 'dashboard/note.html', {'notes': notes,})
 
-# The below function gives the data to the table and save the data in post method
+# The below class create Task with a AJAX call
+class ajaxtaskcreate(AjaxFormMixin,FormView):
+    form_class = CreateTaskMaster
+    template_name = 'task/task.html'
+    success_url = '/form-success/'
+# The below function gives the data to the table
 @login_required(login_url="/user/login")
 def taskpage(request):
 
@@ -88,28 +96,6 @@ def taskpage(request):
         my_team = request.user.groups.values_list('id', flat=True).first()#getting the group id for the user
         final_set = TaskComm.objects.filter(islastcommand=True,taskid__istaskactive=True,taskid__processingteam=my_team)
         task_without_proc = final_set.filter(taskid__processor__is_active=False)
-
-        if request.method == 'POST':
-            form = CreateTaskMaster(request.POST)
-
-            if form.is_valid():
-                taskid = form.save()
-                task_id = taskid.pk
-                cmd_task = TaskComm()
-                cmd_task.taskid = TaskMaster.objects.get(id = task_id)
-                cmd_task.updatedby = request.user
-                cmd_task.comments = "Please proceed as per the instruction in task description"
-                cmd_task.save()
-                data['stat'] = "ok";
-                return HttpResponse(json.dumps(data),content_type="application/json")
-            else:
-                data['stat'] = "error";
-                form = CreateTaskMaster()
-                TaskTypeTag = TaskTypeTable.objects.all()
-                final_set = TaskComm.objects.filter(islastcommand=True,taskid__istaskactive=True)
-                return render(request, 'task/task.html', {'form': form,'all_active_task':final_set, 'TaskTypeTag':TaskTypeTag,'task_count':get_lab,'all_task':final_set.count(),'with_out_proc':task_without_proc.count()})
-
-
         return render(request, 'task/task.html', {'form': form,'all_active_task':final_set, 'TaskTypeTag':TaskTypeTag,'task_count':get_lab,'all_task':final_set.count(),'with_out_proc':task_without_proc.count()})
 
     except Exception as e:
@@ -193,3 +179,9 @@ def command(request,taskid):
 
     except Exception as e:
         raise
+
+@login_required(login_url="/user/login")
+def test_timezone(request):
+    # note_id = get_object_or_404(Notes, note_active=True)
+    timenow = timezone.now()
+    return render(request, 'dashboard/testtime.html', {'timenow': timenow,})

@@ -42,7 +42,7 @@ class DatacenterTable(models.Model):
 class TaskMaster(models.Model):
       sid = models.CharField(max_length=3)
       # Remember to change the default value in processor in production
-      processor = models.ForeignKey(User,null=True,on_delete=models.CASCADE,default=1)
+      processor = models.ForeignKey(User,null=True,on_delete=models.CASCADE,default='')
       tasktype = models.ForeignKey(TaskTypeTable, null=True,on_delete=models.CASCADE)
       task_title = models.TextField(null=True)
       task_description = models.TextField(null=True)
@@ -68,4 +68,4 @@ class Notes(models.Model):
     note_name = models.TextField(null=True)
     note_updatedby = models.ForeignKey(User,null=True,on_delete=models.CASCADE,default=1)
     note_updateddate = models.DateTimeField(("Date"), default=datetime.datetime.now)
-    note_active = models.BooleanField(default=True) 
+    note_active = models.BooleanField(default=True)

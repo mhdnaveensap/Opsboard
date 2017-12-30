@@ -34,14 +34,37 @@
                     {{ form.datacenter }}
                   <label for="sid">Data Center</label>
                   </div>
-                  <div class="input-field col s12 m2 l2">
-                    {{ form.status }}
-                  <label for="sid">Status</label>
-                  </div>
-                  <div class="input-field col s12 m2 l2">
-                    {{ form.processor }}
-                  <label for="sid">Processor</label>
-                  </div>
+
+                  <!-- Modal Structure -->
+                    <div id="modal1" class="modal modal-fixed-footer">
+                        <div class="modal-content">
+                          <div class="row">
+                            <div class="input-field col s12 m6 l6">
+                              {{ form.status }}
+                            <label for="sid">Status</label>
+                            </div>
+                            <div class="input-field col s12 m6 l6">
+                              {{ form.processor }}
+                            <label for="sid">Processor</label>
+                            </div>
+                          <div class="row">
+                              <div class="input-field col s12 m2 l4">
+                                  {{ form.pid }}
+                                <label for="last_name">Process ID</label>
+                              </div>
+                              <div class="input-field col s12 m3 l4">
+                                  {{ form.errorincident }}
+                                <label for="last_name">Error Incident URL/No</label>
+                              </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                          <a id="update_task" style="border-radius:20px;" type="button" name="action" class="btn waves-effect waves-light primarycol">Save</a>
+                        </div>
+
+                    </div>
+                  <!-- Modal Structure -->
                   <div class="input-field col s12 m2 l2">
                     {{ form.priority }}
                   <label for="last_name">Priority</label>
@@ -50,10 +73,16 @@
                     {{ form.tasktype }}
                   <label for="last_name">Task Category</label>
                   </div>
-                  <div class="input-field col s12 m2 l2">
-                      {{ form.pid }}
-                    <label for="last_name">Process ID</label>
+                  <div class="input-field col s12 m3 l3">
+                      {{ form.sourceincident }}
+                    <label for="first_name">Source Incident URL/No</label>
                   </div>
+
+                  <div class="input-field col s12 m2 l2">
+                    {{ form.duedate }}
+                  <label for="last_name">Due Date</label>
+                  </div>
+
                 </div>
                 <div class="row">
                   <div class="input-field col s12 m2 l6">
@@ -66,42 +95,26 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="input-field col s12 m2 l2">
-                    {{ form.processingteam }}
-                  <label for="last_name">Processing Team</label>
-                  </div>
 
-                  <div class="input-field col s12 m3 l3">
-                      {{ form.sourceincident }}
-                    <label for="first_name">Source Incident URL/No</label>
-                  </div>
-                  <div class="input-field col s12 m3 l3">
-                      {{ form.errorincident }}
-                    <label for="last_name">Error Incident URL/No</label>
-                  </div>
-                  <div class="input-field col s12 m2 l2">
-                    {{ form.duedate }}
-                  <label for="last_name">Due Date</label>
-                  </div>
 
                 </div>
 
         </form>
         <div class="row">
                   <div class="form-group col s12 m1 l2">
-                    <a id="update_task" style="border-radius:20px;" type="button" name="action" class="btn waves-effect waves-light primarycol">Update Task</a>
+                    <a href="#modal1" style="border-radius:20px;" class="btn waves-effect waves-light primarycol modal-trigger">Update Task</a>
                   </div>
 
                     <div class="form-group col s12 m1 l2">
                       <a style="border-radius:20px;" href="{% url 'taskpg:task_master' %}" class="waves-effect waves-light btn dangerbtn">Cancel</a>
                     </div>
                     <div class="row s12 m1 l2">
-                      <a style="border-radius:20px;" class="btn waves-effect waves-light primarycol modal-trigger" href="#modal1">Add comment</a>
+                      <a style="border-radius:20px;" class="btn waves-effect waves-light primarycol modal-trigger" href="#modal2">Add comment</a>
                     </div>
             </div>
       </div>
       {# The command area #}
-      <div id="modal1" class="modal bottom-sheet">
+      <div id="modal2" class="modal bottom-sheet">
           <div class="modal-content">
             <h4>Add your comments here</h4>
             <form id="update_form" method="POST">

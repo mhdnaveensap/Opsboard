@@ -23,7 +23,7 @@ class UpateTaskMaster(forms.ModelForm):
 		self.fields['processor'].choices = [(user.pk, user.get_full_name()) for user in users]
 	class Meta():
 		model  = TaskMaster
-		fields = ["sid","tasktype","task_title","task_description","datacenter","status","priority","sourceincident","processingteam","duedate","pid","errorincident",'processor']
+		fields = ["sid","tasktype","task_title","task_description","datacenter","status","priority","sourceincident","duedate","pid","errorincident",'processor']
 		widgets = {
                    'sid': forms.TextInput(attrs={'class': 'form-control mr-sm-2'}),
 				   'task_title':forms.Textarea(attrs={'class': 'materialize-textarea'}),
@@ -42,7 +42,7 @@ class ShowTaskMaster(forms.ModelForm):
 		self.fields['processor'].choices = [(user.pk, user.get_full_name()) for user in users]
 	class Meta():
 		model  = TaskMaster
-		fields = ["sid","tasktype","task_title","task_description","datacenter","status","priority","sourceincident","processingteam","duedate","pid","errorincident",'processor']
+		fields = ["sid","tasktype","task_title","task_description","datacenter","status","priority","sourceincident","duedate","pid","errorincident",'processor']
 		widgets = {
                    'sid': forms.TextInput(attrs={'class': 'form-control mr-sm-2'}),
 				   'task_title':forms.Textarea(attrs={'class': 'materialize-textarea'}),
