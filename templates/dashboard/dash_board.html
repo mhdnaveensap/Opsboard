@@ -3,19 +3,6 @@
 {% load my_tag %}
 {% block title %}
 <title>Dashboard</title>
-<style media="screen">
-  .mytextarea{
-      background-color: blue;
-    	background-repeat:repeat-x;
-    	border:1px solid #d1c7ac;
-    	width: 230px;
-    	color:#333333;
-    	padding:3px;
-    	margin-right:4px;
-    	margin-bottom:8px;
-    	font-family:tahoma, arial, sans-serif;
-  }
-</style>
 <!-- medium Stype Editor -->
 <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
 {# <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css"> #}
@@ -42,15 +29,16 @@
         <div class="collapsible-header"><i class="material-icons primarycol_alt">face</i><strong>My Task</strong><span style="color:white;" class="badge myBadges">{{my_task.count}}</span></div>
         <div class="collapsible-body">
           {# This is loaded form the another page #}
-          <table id="userTbl" class="bordered">
+          <table id="userTbl" class="bordered highlight">
                 <thead class="thead-dark">
                   <tr>
                     <th width="2%"  style="text-align:center;" scope="col">SID</th>
                     <th width="30%" style="text-align:center;" scope="col">Task Title</th>
                     <th width="7%"  style="text-align:center;" scope="col">Task</th>
-                    <th width="50%" style="text-align:center;"scope="col">Comments</th>
-                    <th></th>
-                    <th width="7%"  style="text-align:center;" scope="col">Action</th>
+                    <th width="7%"  style="text-align:center;" scope="col">Source Incident</th>
+                    <th width="1%"></th>
+                    <th width="30%" style="text-align:center;"scope="col">Comments</th>
+
 
                   </tr>
                 </thead>
@@ -60,7 +48,7 @@
                     <td style="text-align:center;">{{ taskstd.taskid.sid|upper }}</td>
                     <td style="text-align:center;">{{ taskstd.taskid.task_title|title|truncatechars:50 }}</td>
                     <td style="text-align:center;">{{ taskstd.taskid.tasktype }}</td>
-                    <td class="cmd_old" style="text-align:center;">{{ taskstd.comments|truncatechars:50 }}</td>
+                    <td style="text-align:center;"><a href="{{ taskstd.taskid.sourceincident}}" target="_blank">{{ taskstd.taskid.sourceincident|is_incident }}</a></td>
                     <td style="text-align:center;">
                       <!-- Modal Structure -->
                         <div id="modal{{taskstd.taskid.id}}" class="modal">
@@ -72,8 +60,8 @@
                           </div>
                         </div>
                       <!-- Modal Structure -->
+                    <td id="td_click" href="#modal{{taskstd.taskid.id}}" class="modal-trigger cmd_old" style="text-align:center;">{{ taskstd.comments }}</td>
                     </td>
-                    <td style="text-align:center;"><a id="test" href="#modal{{taskstd.taskid.id}}" class="btn-floating btn-small waves-effect waves-light modal-trigger primarycol"><i class="material-icons">chat</i></a></td>
                   </tr>
                   {% endfor %}
 

@@ -180,7 +180,7 @@
                          <td style="text-align:center;"><a href="{{ taskstd.taskid.sourceincident}}" target="_blank">{{ taskstd.taskid.sourceincident|is_incident }}</a></td>
                          <td style="text-align:center;">{{ taskstd.comments|truncatechars:50 }}</td>
                          <td style="text-align:center;">{{ taskstd.taskid.processingteam.name }}</td>
-                         <td style="text-align:center;">{{ taskstd.taskid.processor.last_name|default:"No assigned" }}</td>
+                         <td style="text-align:center;">{{ taskstd.taskid.processor.last_name }}</td>
                          <td style="text-align:center;">{{ taskstd.taskid.duedate|date:"M.dS" }}</td>
 
                        </tr>
