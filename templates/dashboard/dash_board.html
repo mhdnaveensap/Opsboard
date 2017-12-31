@@ -60,20 +60,20 @@
                     <td style="text-align:center;">{{ taskstd.taskid.sid|upper }}</td>
                     <td style="text-align:center;">{{ taskstd.taskid.task_title|title|truncatechars:50 }}</td>
                     <td style="text-align:center;">{{ taskstd.taskid.tasktype }}</td>
-                    <td id="cmd" style="text-align:center;">{{ taskstd.comments|truncatechars:50 }}</td>
+                    <td class="cmd_old" style="text-align:center;">{{ taskstd.comments|truncatechars:50 }}</td>
                     <td style="text-align:center;">
                       <!-- Modal Structure -->
-                        <div id="modal1" class="modal">
+                        <div id="modal{{taskstd.taskid.id}}" class="modal">
                           <div class="modal-content">
-                            <input id="mycmdbox" style="padding:1%;" placeholder="Enter your comments here"  type="text">
+                            <input class="mycmdbox" style="padding:1%;" placeholder="Enter your comments here"  type="text">
                           </div>
                           <div class="modal-footer">
-                            <a value="{{taskstd.taskid.id}}" id="upd_cmd" class="btn waves-effect waves-light primarycol">Save</a>
+                            <a value="{{taskstd.taskid.id}}" class="btn waves-effect waves-light primarycol upd_cmd">Save</a>
                           </div>
                         </div>
                       <!-- Modal Structure -->
                     </td>
-                    <td style="text-align:center;"><a id="test" href="#modal1" class="btn-floating btn-small waves-effect waves-light modal-trigger primarycol"><i class="material-icons">chat</i></a></td>
+                    <td style="text-align:center;"><a id="test" href="#modal{{taskstd.taskid.id}}" class="btn-floating btn-small waves-effect waves-light modal-trigger primarycol"><i class="material-icons">chat</i></a></td>
                   </tr>
                   {% endfor %}
 
