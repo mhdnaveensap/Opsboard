@@ -53,7 +53,29 @@
                       <!-- Modal Structure -->
                         <div id="modal{{taskstd.taskid.id}}" class="modal">
                           <div class="modal-content">
-                            <input class="mycmdbox" style="padding:1%;" placeholder="Enter your comments here"  type="text">
+                            <div class="row">
+                              <form action="#">
+                                <p>
+                                  <input name="status" type="radio" value="Running"  id="Running{{taskstd.taskid.id}}" />
+                                  <label for="Running{{taskstd.taskid.id}}">Running</label>
+                                </p>
+                                <p>
+                                  <input name="status" type="radio" value="Error" id="Error{{taskstd.taskid.id}}" />
+                                  <label for="Error{{taskstd.taskid.id}}">Error</label>
+                                </p>
+                                <p>
+                                  <input name="status" type="radio" value="On-Hold"  id="On-Hold{{taskstd.taskid.id}}"  />
+                                  <label for="On-Hold{{taskstd.taskid.id}}">On-Hold</label>
+                                </p>
+                                <p>
+                                  <input name="status" type="radio" value="Complete"  id="Complete{{taskstd.taskid.id}}" />
+                                  <label for="Complete{{taskstd.taskid.id}}">Complete</label>
+                                </p>
+                              </form>
+                            </div>
+                            <div class="row">
+                              <input class="mycmdbox" style="padding:1%;" placeholder="Enter your comments here"  type="text">
+                            </div>
                           </div>
                           <div class="modal-footer">
                             <a value="{{taskstd.taskid.id}}" class="btn waves-effect waves-light primarycol upd_cmd">Save</a>

@@ -21,7 +21,6 @@ class AjaxFormMixin(object):
             taskid = form.save(commit=False)
             my_team = self.request.user.groups.values_list('id', flat=True).first()#getting the group id for the user
             get_my_admin = UserProfile.objects.get(team_name=my_team,user__is_active=False)
-            print(get_my_admin.user.id)
             taskid.processor = User.objects.get(id=get_my_admin.user.id)
             taskid.save()
             task_id = taskid.pk

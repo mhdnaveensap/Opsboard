@@ -4,6 +4,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User,Group
 from taskmaster.models import *
+from commonpage.models import UserProfile
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect,HttpResponse
 from django.template import Context, loader
@@ -52,6 +53,7 @@ def MY_TASK_CMD(request):
         # Getting the task id and cmd START
         taskid = request.GET['tskid']
         my_cmd = request.GET['cmd_text']
+        my_status = request.GET['statusnm']
         # Getting the task id and cmd End
 
         # Getting the task id and cmd START
@@ -59,8 +61,18 @@ def MY_TASK_CMD(request):
         task_commnd = TaskComm.objects.get(pk=task_commnd_id.id)
         task_commnd.islastcommand = False
         task_commnd.updateddate = task_commnd.updateddate
-        task_commnd.save()
         # Getting the task id and cmd End
+
+        #Changing the status and putting the ticket back to queue START
+        chng_status_id = TaskMaster.objects.get(id=taskid)
+        if my_status == 'Complete':
+            chng_status_id.istaskactive = False
+
+        chng_status_id.status = StatusTable.objects.get(status=my_status)
+        my_team = request.user.groups.values_list('id', flat=True).first()#getting the group id for the user
+        get_my_admin = UserProfile.objects.get(team_name=my_team,user__is_active=False)
+        chng_status_id.processor = User.objects.get(id=get_my_admin.user.id)
+        #Changing the status and putting the ticket back to queue END
 
         # Updating the new cmd START
         new_cmd = TaskComm()
@@ -69,12 +81,16 @@ def MY_TASK_CMD(request):
         new_cmd.taskid = TaskMaster.objects.get(pk=taskid)
         new_cmd.updatedby = request.user
         new_cmd.updateddate = timezone.now()
-        new_cmd.save()
         # Updating the new cmd END
-        data['status'] = "I got your update..";
+
+        task_commnd.save()
+        chng_status_id.save()
+        new_cmd.save()
+
+        data['status'] = "Got your update and successfully saved";
         return HttpResponse(json.dumps(data),content_type="application/json")
     except Exception as e:
-        data['status'] = "Somrthing went wrong please contact the admin..";
+        data['status'] = str(e);
         return HttpResponse(json.dumps(data),content_type="application/json")
 
 
@@ -90,31 +106,33 @@ def dashboard(request):
     mytask = TaskComm.objects.filter(islastcommand=True,taskid__istaskactive=True,taskid__processor=request.user.id)
     # Queryset for my task end
     return render(request, 'dashboard/dash_board.html',{'form_notes': form_notes,'my_task':mytask})
-    print(timezone.now())
 
 # This function updates the notes in the dashboard
 @login_required(login_url="/user/login")
 def board_update_note(request):
-    data ={}
-    if request.method == 'POST':
-        my_team = request.user.groups.values_list('id', flat=True).first()#getting the group id for the user
-        note_id = get_object_or_404(Notes, note_active=True,note_updatedby__user_profile__team_name=my_team)
-        form = NOTEFORM(request.POST,instance=note_id)
-        if form.is_valid():
-            form_update = form.save(commit=False)
-            form_update.note_updatedby = request.user
-            form_update.note_updateddate = datetime.datetime.now()
-            form_update.save()
-            data['stat'] = "ok";
-            return HttpResponse(json.dumps(data),content_type="application/json")
-        else:
-            data['stat'] = "error";
-            return HttpResponse(json.dumps(data),content_type="application/json")
+    try:
+        data ={}
+        if request.method == 'POST':
+            my_team = request.user.groups.values_list('id', flat=True).first()#getting the group id for the user
+            note_id = get_object_or_404(Notes, note_active=True,note_updatedby__user_profile__team_name=my_team)
+            form = NOTEFORM(request.POST,instance=note_id)
+            if form.is_valid():
+                form_update = form.save(commit=False)
+                form_update.note_updatedby = request.user
+                form_update.note_updateddate = datetime.datetime.now()
+                form_update.save()
+                data['stat'] = "ok";
+                return HttpResponse(json.dumps(data),content_type="application/json")
+            else:
+                data['stat'] = "error";
+                return HttpResponse(json.dumps(data),content_type="application/json")
+    except Exception as e:
+        data['stat'] = str(e);
+        return HttpResponse(json.dumps(data),content_type="application/json")
 
 # This function shows the notes in the dashboard
 @login_required(login_url="/user/login")
 def board_show_note(request):
-    # note_id = get_object_or_404(Notes, note_active=True)
     my_team = request.user.groups.values_list('id', flat=True).first()#getting the group id for the user
     notes = Notes.objects.filter(note_active=True,note_updatedby__user_profile__team_name=my_team)
     return render(request, 'dashboard/note.html', {'notes': notes,})
@@ -137,9 +155,8 @@ def taskpage(request):
         final_set = TaskComm.objects.filter(islastcommand=True,taskid__istaskactive=True,taskid__processingteam=my_team)
         task_without_proc = final_set.filter(taskid__processor__is_active=False)
         return render(request, 'task/task.html', {'form': form,'all_active_task':final_set, 'TaskTypeTag':TaskTypeTag,'task_count':get_lab,'all_task':final_set.count(),'with_out_proc':task_without_proc.count()})
-
     except Exception as e:
-        pass
+        print("Show task :" + str(e))
 
 # The below function shows the selected taskid in the update screen
 @login_required(login_url="/user/login")
@@ -152,7 +169,7 @@ def show_task(request, taskid):
         form_cmd = update_commnd()#send the form to update the commants of the task
         return render(request, 'task/updatetask.html', {'form': form,'form_cmd':form_cmd,'taskid':task_id})
     except Exception as e:
-        pass
+        print("show update Task Error - "+str(e))
 
 # This function updates the task
 @login_required(login_url="/user/login")
@@ -178,17 +195,15 @@ def updatetaskpage(request,taskid):
 
 
     except Exception as e:
-        raise
+        data['stat'] = str(e);
+        return HttpResponse(json.dumps(data),content_type="application/json")
 
 #This function shows the command for the task id and updated the comment.
 @login_required(login_url="/user/login")
 def command(request,taskid):
     try:
-
         data = {}
-
         command_list = TaskComm.objects.filter(taskid=taskid)
-
         form = update_commnd()
         if request.method == 'POST':
             form = update_commnd(request.POST)
@@ -214,11 +229,9 @@ def command(request,taskid):
 
         return render(request, 'task/commands.html', {'form': form,'commnd_list':command_list})
 
-
-
-
     except Exception as e:
-        raise
+        data['stat'] = str(e);
+        return HttpResponse(json.dumps(data),content_type="application/json")
 
 @login_required(login_url="/user/login")
 def test_timezone(request):
