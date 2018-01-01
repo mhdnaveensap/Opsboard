@@ -12,6 +12,7 @@ $(function () {
       row.hide();
     }
 
+     $('#modal'+taskid).modal('close');
 
     $.get('/mytaskcmd/', {tskid: taskid,cmd_text:cmdtext,statusnm:status,task_que:taskque}, function(data){
           $('#modal1').modal('close');
