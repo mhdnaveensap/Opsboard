@@ -45,6 +45,7 @@ logger = logging.getLogger(__name__)
 ##########################################################
 #Q Create an API which takes a number and returns the factorial in JSON format.
 
+# This function to update and change the task status in MY task bashboard page
 @login_required(login_url="/user/login")
 def MY_TASK_CMD(request):
     try:
