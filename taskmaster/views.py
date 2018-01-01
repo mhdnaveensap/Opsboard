@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect,HttpResponse
 from django.template import Context, loader
 from django import forms
 from django.utils import timezone
+from datetime import date, timedelta
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.views.generic import FormView
@@ -72,7 +73,7 @@ def MY_TASK_CMD(request):
 
         chng_status_id.status = StatusTable.objects.get(status=my_status)
 
-        
+
         if my_que_stat == "Yes":
             my_team = request.user.groups.values_list('id', flat=True).first()#getting the group id for the user
             get_my_admin = UserProfile.objects.get(team_name=my_team,user__is_active=False)
@@ -107,10 +108,15 @@ def dashboard(request):
     form_notes = NOTEFORM(instance=note_id)
     # AREA FOR NOTE END HERE
 
+    # Queryset for my unprocessed task start
+    two_days_back = date.today() - timedelta(days=2)
+    task_not_update = TaskComm.objects.filter(islastcommand=True,updateddate__lte=two_days_back,taskid__istaskactive=True)
+    # Queryset for my unprocessed task end
+
     # Queryset for my task start
     mytask = TaskComm.objects.filter(islastcommand=True,taskid__istaskactive=True,taskid__processor=request.user.id)
     # Queryset for my task end
-    return render(request, 'dashboard/dash_board.html',{'form_notes': form_notes,'my_task':mytask})
+    return render(request, 'dashboard/dash_board.html',{'form_notes': form_notes,'my_task':mytask,'old_task':task_not_update})
 
 # This function updates the notes in the dashboard
 @login_required(login_url="/user/login")
@@ -159,7 +165,7 @@ def taskpage(request):
         my_team = request.user.groups.values_list('id', flat=True).first()#getting the group id for the user
         final_set = TaskComm.objects.filter(islastcommand=True,taskid__istaskactive=True,taskid__processingteam=my_team)
         task_without_proc = final_set.filter(taskid__processor__is_active=False)
-        return render(request, 'task/task.html', {'form': form,'all_active_task':final_set, 'TaskTypeTag':TaskTypeTag,'task_count':get_lab,'all_task':final_set.count(),'with_out_proc':task_without_proc.count()})
+        return render(request, 'task/task.html', {'form': form,'all_active_task':final_set,'with_out_proc':task_without_proc, 'TaskTypeTag':TaskTypeTag,'task_count':get_lab})
     except Exception as e:
         print("Show task :" + str(e))
 

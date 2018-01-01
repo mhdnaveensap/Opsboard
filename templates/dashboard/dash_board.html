@@ -17,18 +17,53 @@
 {# This div holds all the task related suff #}
 <div style="padding:1.5%;" class="row">
   <ul class="collapsible" data-collapsible="accordion">
-    <li>
-        <div class="collapsible-header"><i class="material-icons primarycol_alt">error_outline</i><strong>Important Tasks</strong><span style="color:white;" class="badge myBadges">0</span></div>
-        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-      </li>
       <li>
-        <div class="collapsible-header"><i class="material-icons primarycol_alt">access_time</i><strong>Task older than 3 days</strong><span style="color:white;" class="badge myBadges">0</span></div>
-        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-      </li>
-      <li>
-        <div class="collapsible-header"><i class="material-icons primarycol_alt">face</i><strong>My Task</strong><span style="color:white;" class="badge myBadges">{{my_task.count}}</span></div>
+        <div class="collapsible-header"><i class="material-icons primarycol_alt">access_time</i><strong>Task not touched for 2 days</strong><span style="color:white;" class="badge myBadges">{{old_task.count}}</span></div>
         <div class="collapsible-body">
-          {# This is loaded form the another page #}
+          <table id="userTbl" class="bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th width="3%"  style="text-align:center;" scope="col">SID</th>
+                    <th width="30%" style="text-align:center;" scope="col">Task Title</th>
+                    <th width="7%"  style="text-align:center;" scope="col">Status</th>
+                    <th width="7%"  style="text-align:center;" scope="col">Priority</th>
+                    <th width="7%"  style="text-align:center;" scope="col">Task</th>
+                    <th width="30%" style="text-align:center;"scope="col">Comments</th>
+                    <th width="7%"  style="text-align:center;" scope="col">Processer</th>
+                    <th width="15%"  style="text-align:center;" scope="col">Due Date</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for taskstd in old_task %}
+                  {# {% if taskstd.taskid.processor.is_active == False %} #}
+                      <tr align="center">
+                    <td style="text-align:center;"><a href="/Task/{{taskstd.taskid.id}}">{{ taskstd.taskid.sid|upper }}</a></td>
+                    <td style="text-align:center;">{{ taskstd.taskid.task_title|truncatechars:50 }}</td>
+                    <td style="text-align:center;">
+                      <div class="container {{ taskstd.taskid.status }}">
+                        {{ taskstd.taskid.status }}
+                      </div>
+                    </td>
+                    <a href="#"></a>
+                    <td style="text-align:center;">{{ taskstd.taskid.priority }}</td>
+                    <td style="text-align:center;">{{ taskstd.taskid.tasktype }}</td>
+                    <td style="text-align:center;">{{ taskstd.comments|truncatechars:50 }}</td>
+                    <td style="text-align:center;">{{ taskstd.taskid.processor.last_name }}</td>
+                    <td style="text-align:center;">{{ taskstd.taskid.duedate|date:"M.dS" }}</td>
+                  </tr>
+                  {# {% endif %} #}
+                  {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+      </li>
+      {# My task list START#}
+      <li>
+        <div class="collapsible-header"><i class="material-icons primarycol_alt">person</i><strong>My Task</strong><span style="color:white;" class="badge myBadges">{{my_task.count}}</span></div>
+        <div class="collapsible-body">
+          {# Thsi table is for the my task #}
           <table id="userTbl" class="bordered highlight">
                 <thead class="thead-dark">
                   <tr>
@@ -45,7 +80,7 @@
                 <tbody>
                   {% for taskstd in my_task|dictsort:"taskid.duedate" %}
                   <tr align="center">
-                    <td style="text-align:center;">{{ taskstd.taskid.sid|upper }}</td>
+                    <td style="text-align:center;"><a href="/Task/{{taskstd.taskid.id}}">{{ taskstd.taskid.sid|upper }}</a></td>
                     <td style="text-align:center;">{{ taskstd.taskid.task_title|title|truncatechars:50 }}</td>
                     <td style="text-align:center;">{{ taskstd.taskid.tasktype }}</td>
                     <td style="text-align:center;"><a href="{{ taskstd.taskid.sourceincident}}" target="_blank">{{ taskstd.taskid.sourceincident|is_incident }}</a></td>
@@ -110,6 +145,7 @@
             </table>
         </div>
       </li>
+      {# My task list END#}
     </ul>
 </div>
 {# End of Tasks #}
