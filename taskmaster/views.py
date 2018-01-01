@@ -148,6 +148,22 @@ def board_show_note(request):
     notes = Notes.objects.filter(note_active=True,note_updatedby__user_profile__team_name=my_team)
     return render(request, 'dashboard/note.html', {'notes': notes,})
 
+# This function is for all task in active
+@login_required(login_url="/user/login")
+def alltask(request):
+    # Queryset for all task start
+    alltask = TaskComm.objects.filter(islastcommand=True,taskid__istaskactive=True)
+    # Queryset for all task end
+    return render(request, 'task/alltask.html',{'alltask':alltask})
+
+# This function is for completed task in active
+@login_required(login_url="/user/login")
+def completedtask(request):
+    # Queryset for completed task start
+    completedtask = TaskComm.objects.filter(islastcommand=True,taskid__istaskactive=False)
+    # Queryset for completed task end
+    return render(request, 'task/completed_task.html',{'completedtask':completedtask})
+
 # The below class create Task with a AJAX call
 class ajaxtaskcreate(AjaxFormMixin,FormView):
     form_class = CreateTaskMaster

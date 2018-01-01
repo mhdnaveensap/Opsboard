@@ -27,4 +27,8 @@ urlpatterns = [
                     url(r'^taskcreate/$', ajaxtaskcreate.as_view()),
                     # The below URL is to update the MY TASK CMD
                     url(r'^mytaskcmd/$', MY_TASK_CMD,name="my_task_cmd"),
+                    # The below URL is to ALL TASKS
+                    url(r'^alltask/$', alltask,name="alltask"),
+                    # The below URL is for completed TASKS
+                    url(r'^completedtask/$', completedtask,name="completedtask"),
               ]
