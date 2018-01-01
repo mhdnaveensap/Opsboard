@@ -54,24 +54,43 @@
                         <div id="modal{{taskstd.taskid.id}}" class="modal">
                           <div class="modal-content">
                             <div class="row">
-                              <form action="#">
-                                <p>
-                                  <input name="status" type="radio" value="Running"  id="Running{{taskstd.taskid.id}}" />
-                                  <label for="Running{{taskstd.taskid.id}}">Running</label>
-                                </p>
-                                <p>
-                                  <input name="status" type="radio" value="Error" id="Error{{taskstd.taskid.id}}" />
-                                  <label for="Error{{taskstd.taskid.id}}">Error</label>
-                                </p>
-                                <p>
-                                  <input name="status" type="radio" value="On-Hold"  id="On-Hold{{taskstd.taskid.id}}"  />
-                                  <label for="On-Hold{{taskstd.taskid.id}}">On-Hold</label>
-                                </p>
-                                <p>
-                                  <input name="status" type="radio" value="Complete"  id="Complete{{taskstd.taskid.id}}" />
-                                  <label for="Complete{{taskstd.taskid.id}}">Complete</label>
-                                </p>
-                              </form>
+                              <div class="col sm12 m6 l6">
+                                <form action="#">
+
+                                  <p>
+                                    <strong>Status:</strong> <br>
+                                    <input name="status" type="radio" checked="checked"  value="Running"  id="Running{{taskstd.taskid.id}}" />
+                                    <label for="Running{{taskstd.taskid.id}}">Running</label>
+                                  </p>
+                                  <p>
+                                    <input name="status" type="radio" value="Error" id="Error{{taskstd.taskid.id}}" />
+                                    <label for="Error{{taskstd.taskid.id}}">Error</label>
+                                  </p>
+                                  <p>
+                                    <input name="status" type="radio" value="On-Hold"  id="On-Hold{{taskstd.taskid.id}}"  />
+                                    <label for="On-Hold{{taskstd.taskid.id}}">On-Hold</label>
+                                  </p>
+                                  <p>
+                                    <input name="status" type="radio" value="Complete"  id="Complete{{taskstd.taskid.id}}" />
+                                    <label for="Complete{{taskstd.taskid.id}}">Complete</label>
+                                  </p>
+                                </form>
+                              </div>
+                              <div class="col sm12 m6 l6">
+                                <form action="#">
+
+                                  <p>
+                                    <strong>Put the ticket back to the queue</strong> <br>
+                                    <input name="taskqueue" type="radio" value="Yes"  id="Yes{{taskstd.taskid.id}}" />
+                                    <label for="Yes{{taskstd.taskid.id}}">Yes</label>
+                                  </p>
+                                  <p>
+                                    <input name="taskqueue" type="radio" checked="checked" value="No" id="No{{taskstd.taskid.id}}" />
+                                    <label for="No{{taskstd.taskid.id}}">No</label>
+                                  </p>
+                                </form>
+                              </div>
+
                             </div>
                             <div class="row">
                               <input class="mycmdbox" style="padding:1%;" placeholder="Enter your comments here"  type="text">

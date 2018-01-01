@@ -55,6 +55,7 @@ def MY_TASK_CMD(request):
         taskid = request.GET['tskid']
         my_cmd = request.GET['cmd_text']
         my_status = request.GET['statusnm']
+        my_que_stat = request.GET['task_que']
         # Getting the task id and cmd End
 
         # Getting the task id and cmd START
@@ -70,9 +71,12 @@ def MY_TASK_CMD(request):
             chng_status_id.istaskactive = False
 
         chng_status_id.status = StatusTable.objects.get(status=my_status)
-        my_team = request.user.groups.values_list('id', flat=True).first()#getting the group id for the user
-        get_my_admin = UserProfile.objects.get(team_name=my_team,user__is_active=False)
-        chng_status_id.processor = User.objects.get(id=get_my_admin.user.id)
+
+        
+        if my_que_stat == "Yes":
+            my_team = request.user.groups.values_list('id', flat=True).first()#getting the group id for the user
+            get_my_admin = UserProfile.objects.get(team_name=my_team,user__is_active=False)
+            chng_status_id.processor = User.objects.get(id=get_my_admin.user.id)
         #Changing the status and putting the ticket back to queue END
 
         # Updating the new cmd START
